@@ -22,7 +22,7 @@ services:
     depends_on:
       - mysql
     ports:
-      - "3000:3000" # change to your app's exposed port
+      - "3000:8080" # change to your app's exposed port
     networks:
       - jenkins-net
 
