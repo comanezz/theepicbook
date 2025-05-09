@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: yourpassword
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    ports:
+      - "3306:3306"
+    networks:
+      - jenkins-net
+
+  app:
+    image: your-app-image
+    container_name: app
+    environment:
+      DB_HOST: mysql
+      DB_USER: myuser
+      DB_PASS: mypassword
+    depends_on:
+      - mysql
+    ports:
+      - "3000:3000" # change to your app's exposed port
+    networks:
+      - jenkins-net
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    user: "0"
+    container_name: jenkins
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - jenkins-net
+
+networks:
+  jenkins-net:
+
+volumes:
+  jenkins_home:
