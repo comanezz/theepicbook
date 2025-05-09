@@ -15,7 +15,7 @@ services:
       - jenkins-net
 
   app:
-    image: your-app-image
+    image: comanez/my-app-image
     container_name: app
     environment:
       DB_HOST: mysql
