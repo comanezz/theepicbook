@@ -7,18 +7,18 @@ const basename = path.basename(module.filename);
 const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/config.json")[env];
 
-config.host = process.env.DB_HOST || 'localhost';
-config.username = process.env.DB_USER || config.username;
-config.password = process.env.DB_PASS || config.password;
-config.database = process.env.DB_NAME || config.database;
-
 let db = {};
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable]);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+const sequelize = new Sequelize(
+  'mydb',         // Database name
+  'myuser',       // Database username
+  'mypassword',   // Database password
+  {
+    host: 'mysql', // Replace 'mysql' with the actual host (like '127.0.0.1' or a container name)
+    dialect: 'mysql', // Database dialect (MySQL)
+    port: 3306,    // MySQL port
+  }
+);
 
 fs.readdirSync(__dirname)
   .filter((file) => {
